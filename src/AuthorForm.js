@@ -1,25 +1,17 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import addAuthor from './helpers/data/authorsData';
+import { addAuthor } from './helpers/data/authorsData';
 
 const AuthorForm = ({
-  // first_name,
-  // last_name,
-  // email,
-  // favorite,
-  firebaseKey
+  formTitle
 }) => {
   const [author, setAuthors] = useState({
     first_name: '',
     last_name: '',
     email: '',
     favorite: false,
-    firebaseKey: firebaseKey || null
   });
-  const history = useHistory();
 
-  // This is to handle the user Changes in here
   const handleInputChange = (e) => {
     setAuthors((prevState) => ({
       ...prevState,
@@ -35,7 +27,7 @@ const AuthorForm = ({
     } else {
       addAuthor(author).then((response) => {
         setAuthors(response);
-        history.push('/authors');
+        // history.push('/authors');
       });
 
       setAuthors({
@@ -52,7 +44,7 @@ const AuthorForm = ({
     <>
     <div className='author-form'>
       <form id='addStudentForm' autoComplete='off' onSubmit={handleSubmit}>
-        <h2>New Author</h2>
+        <h2>{formTitle}</h2>
           <label>Author&#39;s First Name:</label>
           <input
             name='first_name'
@@ -96,11 +88,12 @@ const AuthorForm = ({
 };
 
 AuthorForm.propTypes = {
+  formTitle: PropTypes.string.isRequired,
   first_name: PropTypes.string.isRequired,
   last_name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   favorite: PropTypes.bool.isRequired,
-  firebaseKey: PropTypes.string
+  // firebaseKey: PropTypes.string
 };
 
 export default AuthorForm;

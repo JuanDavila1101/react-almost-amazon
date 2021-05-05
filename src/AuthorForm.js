@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import {
+  FormGroup, Form, Label, Input, Button
+} from 'reactstrap';
 import PropTypes from 'prop-types';
 import { addAuthor } from './helpers/data/authorsData';
 
@@ -9,7 +12,7 @@ const AuthorForm = ({
     first_name: '',
     last_name: '',
     email: '',
-    favorite: false,
+    favorite: false
   });
 
   const handleInputChange = (e) => {
@@ -22,20 +25,10 @@ const AuthorForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (author.firebaseKey) {
-      // updateAuthor(author).then(setAuthor);
       console.warn('Update Authors here');
     } else {
       addAuthor(author).then((response) => {
         setAuthors(response);
-        // history.push('/authors');
-      });
-
-      setAuthors({
-        first_name: '',
-        last_name: '',
-        email: '',
-        favorite: false,
-        firebaseKey: null
       });
     }
   };
@@ -43,10 +36,11 @@ const AuthorForm = ({
   return (
     <>
     <div className='author-form'>
-      <form id='addStudentForm' autoComplete='off' onSubmit={handleSubmit}>
+      <Form id='addAuthorForm' autoComplete='off' onSubmit={handleSubmit}>
         <h2>{formTitle}</h2>
-          <label>Author&#39;s First Name:</label>
-          <input
+        <FormGroup>
+          <Label>Author&#39;s First Name:</Label>
+          <Input
             name='first_name'
             id='first_name'
             type='text'
@@ -54,8 +48,10 @@ const AuthorForm = ({
             value={author.name}
             onChange={handleInputChange}
           />
-          <label>Author&#39;s Last Name:</label>
-          <input
+        </FormGroup>
+        <FormGroup>
+          <Label>Author&#39;s Last Name:</Label>
+          <Input
             name='last_name'
             id='last_name'
             type='text'
@@ -63,8 +59,10 @@ const AuthorForm = ({
             value={author.name}
             onChange={handleInputChange}
           />
-          <label>Email:</label>
-          <input
+        </FormGroup>
+        <FormGroup>
+          <Label>Email:</Label>
+          <Input
             name='email'
             id='email'
             type='text'
@@ -72,16 +70,19 @@ const AuthorForm = ({
             value={author.name}
             onChange={handleInputChange}
           />
-          <label>favorite:</label>
-          <input
+        </FormGroup>
+        <FormGroup>
+          <Label>favorite:</Label>
+          <Input
             name='favorite'
             id='favorite'
             type='checkbox'
             value={author.name}
             onChange={handleInputChange}
           />
-        <button type='submit'>Submit</button>
-      </form>
+        </FormGroup>
+        <Button type='submit'>Submit</Button>
+      </Form>
     </div>
     </>
   );
@@ -92,8 +93,7 @@ AuthorForm.propTypes = {
   first_name: PropTypes.string.isRequired,
   last_name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  favorite: PropTypes.bool.isRequired,
-  // firebaseKey: PropTypes.string
+  favorite: PropTypes.bool.isRequired
 };
 
 export default AuthorForm;

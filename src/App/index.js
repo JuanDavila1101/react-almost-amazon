@@ -1,8 +1,16 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
+// import ReactDom from 'react-dom';
+import firebase from 'firebase/app';
+import firebaseConfig from '../helpers/apiKeys';
 import AuthorForm from '../AuthorForm';
 import { getAuthors } from '../helpers/data/authorsData';
 import AuthorsCard from '../components/authorsCard';
 import './App.scss';
+// import repostWebVitals from '../reportWebVitals';
+import '../styles/index.scss';
+
+firebase.initializeApp(firebaseConfig);
 
 function App() {
   const [authors, setAuthors] = useState([]);
@@ -27,6 +35,7 @@ function App() {
           firstName={authorInformation.first_name}
           lastName={authorInformation.last_name}
           email={authorInformation.email}
+          favorite={authorInformation.favorite}
           setAuthors={setAuthors}
       />
     ))}

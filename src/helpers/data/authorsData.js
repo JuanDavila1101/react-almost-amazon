@@ -24,9 +24,19 @@ const addAuthor = (authorObject) => new Promise((resolve, reject) => {
 });
 
 const deleteAuthor = (firebaseKey) => new Promise((resolve, reject) => {
+  // console.warn('deleting', `${dbUrl}/authors/${firebaseKey}.json`);
+  // debugger;
   axios.delete(`${dbUrl}/authors/${firebaseKey}.json`)
     .then(() => getAuthors().then((authorsArray) => resolve(authorsArray)))
     .catch((error) => reject(error));
 });
 
-export { addAuthor, getAuthors, deleteAuthor };
+const updateAuthor = (authorObject) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/authors/${authorObject.firebaseKey}.json`, authorObject)
+    .then(() => getAuthors().then((authorsArray) => resolve(authorsArray)))
+    .catch((error) => reject(error));
+});
+
+export {
+  addAuthor, getAuthors, deleteAuthor, updateAuthor
+};

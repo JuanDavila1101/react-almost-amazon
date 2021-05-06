@@ -3,20 +3,27 @@ import {
   FormGroup, Form, Label, Input, Button
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { addAuthor } from './helpers/data/authorsData';
+import { addAuthor, updateAuthor } from './helpers/data/authorsData';
 
 const AuthorForm = ({
-  formTitle
+  formTitle,
+  setAuthors,
+  firebaseKey,
+  firstName,
+  lastName,
+  email,
+  favorite,
 }) => {
-  const [author, setAuthors] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    favorite: false
+  const [author, setAuthor] = useState({
+    firebaseKey: firebaseKey || null,
+    first_name: firstName || '',
+    last_name: lastName || '',
+    email: email || '',
+    favorite: favorite || false,
   });
 
   const handleInputChange = (e) => {
-    setAuthors((prevState) => ({
+    setAuthor((prevState) => ({
       ...prevState,
       [e.target.name]: (e.target.name !== 'favorite' ? e.target.value : e.target.checked),
     }));
@@ -25,11 +32,9 @@ const AuthorForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (author.firebaseKey) {
-      console.warn('Update Authors here');
+      updateAuthor(author).then((response) => setAuthors(response));
     } else {
-      addAuthor(author).then((response) => {
-        setAuthors(response);
-      });
+      addAuthor(author).then((response) => setAuthors(response));
     }
   };
 
@@ -90,10 +95,12 @@ const AuthorForm = ({
 
 AuthorForm.propTypes = {
   formTitle: PropTypes.string.isRequired,
-  first_name: PropTypes.string.isRequired,
-  last_name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  favorite: PropTypes.bool.isRequired
+  setAuthors: PropTypes.func,
+  firebaseKey: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  email: PropTypes.string,
+  favorite: PropTypes.bool
 };
 
 export default AuthorForm;
